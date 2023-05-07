@@ -12,6 +12,7 @@ export const loginFormSchema = yup.object().shape({
 });
 
 export const registrationFormSchema = yup.object().shape({
+  userName: yup.string().required('Поле обязательно'),
   email: yup.string().email('Неправильно указана почта').required('Поле обязательно'),
   password1: yup
     .string()
