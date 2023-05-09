@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CreateUserDto } from '../../../api/types';
 import { userApi } from '@/api';
 import { setCookie } from 'nookies';
+import { useState } from 'react';
 
 const RegistrationForm = () => {
   const [formErr, setFormErr] = useState('')

@@ -1,7 +1,13 @@
-export default function MyApp ({ Component, pageProps }:any) {
+import { store, wrapper } from '@/redux/store/store';
+import { Provider } from 'react-redux';
+
+export default function MyApp({ Component, ...rest }: any) {
+  const {store,props} = wrapper.useWrappedStore(rest)
   return (
     <>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...props.pageProps} />
+      </Provider>
       <style jsx global>
         {`
           body {
@@ -16,4 +22,4 @@ export default function MyApp ({ Component, pageProps }:any) {
       </style>
     </>
   );
-};
+}

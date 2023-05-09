@@ -6,10 +6,13 @@ import { loginDto } from '../../../api/types';
 import { userApi } from '../../../api/index';
 import { setCookie } from 'nookies';
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks/index';
+import { setUserData } from '@/redux/slices/user';
 
 const LoginForm = () => {
-const [formErr, setFormErr] = useState('')
-
+  const dispatch = useAppDispatch();
+  const [formErr, setFormErr] = useState('');
+  const dd = useAppSelector((state) => state.user.data?.email);
   const {
     register,
     handleSubmit,
@@ -23,9 +26,11 @@ const [formErr, setFormErr] = useState('')
       const data = await userApi.login(dto);
       setCookie(null, 'authToken', data.access_token, { maxAge: 30 * 24 * 60 * 60, path: '/' });
       console.log(data);
-      setFormErr('')
-    } catch (err:any) {
-      setFormErr(err.response.data.message)
+      setFormErr('');
+      dispatch(setUserData(data));
+      console.log(dd);
+    } catch (err: any) {
+      setFormErr(err.response.data.message);
     }
   };
 
@@ -40,6 +45,7 @@ const [formErr, setFormErr] = useState('')
         <b className={s.error}>{errors.password?.message}</b>
         <b className={s.error}>{formErr}</b>
         <input className={s.submitBtn} disabled={isSubmitting} type="submit" value="ВОЙТИ" />
+        <p>{dd}</p>
       </form>
     </div>
   );
